@@ -25,6 +25,14 @@ artnet 05:30 UTC); the ICJ ruling was read at 10:00 in The Hague
 on 19 Nov; Anthropic priced its IPO at $83 on 19 Nov. Stories that
 belong to 18 Nov alone (EU EUR45bn loan, the 17 Nov An-12 crash,
 Dhoni's IPL retirement) are NOT included, as in round 1.
+
+Round-2 polish (this session): the mini-panel summaries of stories
+5, 10, 11 and 12 were wrapping to 3–4 lines while only 2 are drawn,
+so each ended mid-phrase ("the largest", "no licensed", "in the
+2017"); list item 28 overflowed its column by ~12 px and collided
+with the right column's "44". All five strings are shortened here
+to fit their boxes exactly — same stories, same facts, no layout
+change — so every visible line now reads complete.
 """
 import math
 import os
@@ -371,7 +379,7 @@ MAIN = [
      "satellite", -118.2, 34.2),
     (5, "ASIA · WEATHER",
      "Cyclone Akvan turns very severe today",
-     "Landfall Friday noon between Nellore and Visakhapatnam; gusts to 145 km/h, heavy rain over Andhra and Odisha.",
+     "Landfall Friday noon near Nellore; gusts 145 km/h.",
      "cyclone", 82.4, 16.9),
     (6, "SOCIETY · FAITH",
      "Pew: Islam to be the largest faith by 2035",
@@ -391,15 +399,15 @@ MAIN = [
      "globe", 116.4, 39.9),
     (10, "TECH · MARKETS",
      "Anthropic IPO prices at $83 a share",
-     "Claude maker's debut values it near $1.5 trillion — the largest IPO ever, raising $81.3 billion.",
+     "Debut values it near $1.5 trillion — largest IPO ever.",
      "rocket", -77.0, 38.9),
     (11, "HEALTH · AFRICA",
      "Ebola in Congo tops 11,500 cases",
-     "WHO: outbreak still out of control; 5,630 dead, no licensed vaccine for the Bundibugyo strain.",
+     "WHO: still out of control; 5,630 dead, no licensed vaccine yet.",
      "virus", 25.0, 0.5),
     (12, "JUSTICE · THE HAGUE",
      "ICJ rules on Rohingya genocide case",
-     "Court finds Myanmar forces killed thousands in the 2017 crackdown; a genocide verdict is still pending.",
+     "Myanmar forces killed thousands in 2017; verdict pending.",
      "scales", 4.5, 52.1),
 ]
 
@@ -420,7 +428,7 @@ LISTED = [
     (25, "Science: 'Missing billion years' solved", None, None),
     (26, "Asia: China, Russia deepen APEC ties", 114.0, 22.5),
     (27, "Asia: ASEAN code short; Singapore chairs", 103.8, 1.35),
-    (28, "Bangladesh: Yunus home torched, unrest in 28", 90.4, 23.8),
+    (28, "Bangladesh: Yunus home torched, unrest", 90.4, 23.8),
     (29, "USA: Trump 'unhappy' with Vance on Iran", -77.0, 38.9),
     (30, "USA: Fed minutes see more hikes ahead", -77.0, 38.9),
     (31, "USA: FAA halts rollout; 18,000 flights axed", -77.0, 38.9),

@@ -148,3 +148,25 @@ hari — deadline 21 Nov 07:00 WIB.
   (61f356384fea81b3de71d7b46e952fd6810c182334ff56714d501859eae97b99);
   main.py 2x → sha256 sama. gen_image.py diedit di sesi ronde 2
   dan main.py ditulis ulang dari nol di sesi ini (authorship gate).
+
+## RONDE 2 — POLISH (sesi hidup baru, 19 Nov ~19:50 WIB)
+
+- Masalah yang ditemukan di entry.png ronde 2 saat inspeksi visual:
+  ringkasan panel 5, 10, 11, 12 membungkus ke 3–4 baris padahal
+  hanya 2 baris yang digambar, jadi tiap panel berakhir di tengah
+  frasa ("the largest", "no licensed", "in the 2017"); item daftar
+  28 meluber ~12 px melewati kolomnya dan menabrak angka "44".
+- Perbaikan (SATU area: teks yang terpotong — cerita dan fakta
+  sama, layout tidak berubah): panel 5 → "Landfall Friday noon
+  near Nellore; gusts 145 km/h."; panel 10 → "Debut values it
+  near $1.5 trillion — largest IPO ever."; panel 11 → "WHO: still
+  out of control; 5,630 dead, no licensed vaccine yet."; panel 12
+  → "Myanmar forces killed thousands in 2017; verdict pending.";
+  item 28 → "Bangladesh: Yunus home torched, unrest". Semua
+  diukur dulu dengan Pillow (ringkasan ≤2 baris pada 11 pt/183 px;
+  item 28 ≤215 px pada 10 pt) sebelum dipakai.
+- Verifikasi polish: entry.png 1024×1024, 171.498 byte (< 1 MiB);
+  gen_image.py 2x → sha256 identik
+  (db76de9f7f8952cf3485bb429da9017dcc341eb6eba0dc38bfb193da4a98b612);
+  main.py 2x → sha256 sama; inspeksi visual: kelima baris kini
+  terbaca utuh. Edit gen_image.py ditulis langsung di sesi ini.
