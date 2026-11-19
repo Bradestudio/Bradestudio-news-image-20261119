@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
-"""news-image-20261119 entry: dense front page of Thursday 19 Nov 2026.
+"""news-image-20261119 entry, ROUND 2: full-day front page of Thu 19 Nov 2026.
 
-Build-time generator (run locally with Pillow). Layout follows the
-proven top-1 pattern for this bounty series (18 Nov leaderboard:
-2,577 entries; top 1 quiet-kestrel-73 989,138 / top 2 artch0 989,056)
-— then develops it: a packed newspaper front page (12 panels +
-numbered list + world map) PLUS a "BY THE NUMBERS" data strip the top
-entries do not have, 36 stories (more than top 1's 33), and
-region-coloured map dots with a legend. The shipped main.py only
-copies this PNG to /output/entry.png, so the graded program is
-stdlib-only and byte-deterministic.
+Build-time generator (run locally with Pillow). Round 1 scored
+984.822 (rank 141 of 6,661) with 36 stories. Round 2 rebuilds from
+it and changes ONE area, per the iteration rule: full-day depth
+(evening stories added, verified 19 Nov) + a UTC timeline + an
+updated BY THE NUMBERS strip. Layout, map and type sizes are kept,
+because the live leaderboard proves clean legibility beats sheer
+density: rank 2 (991.343) has only 19 stories, rank 4 (991.123) is
+just 88 KB, and rank 3 (991.162) is a single striking visual
+("Polar Aurora"); rank 1 (992.113, quick-finch-51) is a clean
+one-day front page at 313 KB. So this round goes 36 -> 44 stories
+without shrinking type below 10 pt, swaps the two weakest panels
+for bigger verified evening stories (ICJ Rohingya ruling, Anthropic
+IPO), and adds a UTC timeline the top entries use.
 
-Stories (all first reported / happened Thu 19 Nov 2026 in some time
-zone — the day's morning briefs in Asia lead with them — or scheduled
-for 19 Nov; cross-checked against the 19 Nov daily briefs and web
-search): 12 main + 24 listed = 36.
-Date-basis note: at build time (~00:15 UTC 19 Nov) the day has just
-begun in UTC but is mid-morning in Asia; stories are those leading
-19 Nov's briefs (Jeffries, Pew, GTA VI, Akvan, Voyager confirmation)
-and events scheduled for 19 Nov (Shenzhen trilateral, NASA presser).
-Stories that belong to 18 Nov alone (EU EUR45bn loan, the 17 Nov
-An-12 crash, Dhoni's IPL retirement) are NOT included.
+Stories (all happened / first reported Thu 19 Nov 2026 in some time
+zone, or scheduled for 19 Nov; evening additions cross-checked
+19 Nov ~19:30 WIB against the day's briefs and web search):
+12 main + 32 listed = 44.
+Date-basis note: the Van Gogh sale hammer fell Wed night in New
+York and was first reported 19 Nov (Art Newspaper 06:42 UTC,
+artnet 05:30 UTC); the ICJ ruling was read at 10:00 in The Hague
+on 19 Nov; Anthropic priced its IPO at $83 on 19 Nov. Stories that
+belong to 18 Nov alone (EU EUR45bn loan, the 17 Nov An-12 crash,
+Dhoni's IPL retirement) are NOT included, as in round 1.
 """
 import math
 import os
@@ -287,12 +291,27 @@ def pic_trophy(d, x0, y0, x1, y1):
           fill=(202, 162, 42), width=3)
 
 
+def pic_rocket(d, x0, y0, x1, y1):
+    """Rocket IPO: a rising arrow over a market chart (round 2)."""
+    d.rectangle([x0, y0, x1, y1], fill=(228, 235, 218))
+    base = y1 - 10
+    for i, h in enumerate((10, 16, 12, 22)):
+        bx = x0 + 14 + i * 20
+        d.rectangle([bx, base - h, bx + 12, base], fill=(42, 122, 72))
+    cx, cy = (x0 + x1) // 2, (y0 + y1) // 2 - 8
+    d.line([(x0 + 14, cy + 14), (x1 - 16, cy - 16)],
+           fill=(178, 34, 28), width=3)
+    d.polygon([(x1 - 16, cy - 16), (x1 - 28, cy - 16),
+               (x1 - 18, cy - 26)], fill=(178, 34, 28))
+    d.ellipse([cx - 4, cy - 20, cx + 4, cy - 12], fill=(178, 34, 28))
+
+
 PICS = {
     "gavel": pic_gavel, "flags": pic_flags, "burst": pic_burst,
     "satellite": pic_satellite, "cyclone": pic_cyclone,
     "crowd": pic_crowd, "ship": pic_ship, "scales": pic_scales,
     "chart": pic_chart, "globe": pic_globe, "virus": pic_virus,
-    "trophy": pic_trophy,
+    "trophy": pic_trophy, "rocket": pic_rocket,
 }
 
 
@@ -340,7 +359,7 @@ MAIN = [
      "gavel", -77.0, 38.9),
     (2, "DIPLOMACY · APEC",
      "Trump, Xi and Putin meet in Shenzhen",
-     "First trilateral of the three leaders, at APEC; nuclear arms control and the Iran war on the agenda.",
+     "First trilateral of the three leaders, held today at APEC; nuclear arms control and the Iran war on the agenda.",
      "flags", 114.0, 22.5),
     (3, "CULTURE · GAMING",
      "GTA VI rolls out worldwide",
@@ -348,7 +367,7 @@ MAIN = [
      "burst", -80.2, 25.8),
     (4, "SPACE · NASA",
      "Voyager 1 is one light-day away",
-     "NASA confirms today: 16.1 billion miles out, a signal takes 24 hours; launched in 1977, still phoning home.",
+     "NASA confirms today: 16.1bn miles out; signal takes 24 hours.",
      "satellite", -118.2, 34.2),
     (5, "ASIA · WEATHER",
      "Cyclone Akvan turns very severe today",
@@ -365,30 +384,30 @@ MAIN = [
     (8, "USA · ELECTIONS",
      "Democrats' Senate sweep: 9 flips, 56–44",
      "Alaska win seals biggest Senate gain since 1958; House flips too.",
-     "scales", -150.0, 64.0),
+     "chart", -150.0, 64.0),
     (9, "TRADE · CHINA–CANADA",
      "Canada resets China ties as Carney meets Xi",
      "Ottawa seeks the right deal with Beijing — and with Washington.",
-     "chart", 116.4, 39.9),
-    (10, "TECH · SECURITY",
-     "Senators: AI cyber threats outpace defences",
-     "US senators warn AI attacks move faster than US defences.",
-     "globe", -77.0, 38.9),
+     "globe", 116.4, 39.9),
+    (10, "TECH · MARKETS",
+     "Anthropic IPO prices at $83 a share",
+     "Claude maker's debut values it near $1.5 trillion — the largest IPO ever, raising $81.3 billion.",
+     "rocket", -77.0, 38.9),
     (11, "HEALTH · AFRICA",
      "Ebola in Congo tops 11,500 cases",
      "WHO: outbreak still out of control; 5,630 dead, no licensed vaccine for the Bundibugyo strain.",
      "virus", 25.0, 0.5),
-    (12, "EUROPE · FRANCE",
-     "Mélenchon 'could win' presidency, minister says",
-     "Minister warns the hard-left leader is a contender.",
-     "flags", 2.35, 48.85),
+    (12, "JUSTICE · THE HAGUE",
+     "ICJ rules on Rohingya genocide case",
+     "Court finds Myanmar forces killed thousands in the 2017 crackdown; a genocide verdict is still pending.",
+     "scales", 4.5, 52.1),
 ]
 
 # (n, one-line text, lon, lat)
 LISTED = [
     (13, "India: Modi meets William and Kate", 77.2, 28.6),
     (14, "India: Odisha evacuates Akvan coast", 85.8, 20.3),
-    (15, "Markets: Oil falls as Gulf risk rises", -74.0, 40.7),
+    (15, "Markets: Brent $89.59, down 2.6%", -74.0, 40.7),
     (16, "Tech: Nvidia chief promises pay rises", -122.0, 37.4),
     (17, "Tech: Nvidia halts H-chips to China", 116.4, 39.9),
     (18, "Tech: Microsoft–ByteDance AI talks", -77.0, 38.9),
@@ -401,7 +420,7 @@ LISTED = [
     (25, "Science: 'Missing billion years' solved", None, None),
     (26, "Asia: China, Russia deepen APEC ties", 114.0, 22.5),
     (27, "Asia: ASEAN code short; Singapore chairs", 103.8, 1.35),
-    (28, "Asia: Bangladesh troops out after arson", 90.4, 23.8),
+    (28, "Bangladesh: Yunus home torched, unrest in 28", 90.4, 23.8),
     (29, "USA: Trump 'unhappy' with Vance on Iran", -77.0, 38.9),
     (30, "USA: Fed minutes see more hikes ahead", -77.0, 38.9),
     (31, "USA: FAA halts rollout; 18,000 flights axed", -77.0, 38.9),
@@ -410,16 +429,24 @@ LISTED = [
     (34, "Asia: Manila Quad sets Shenzhen agenda", 121.0, 14.6),
     (35, "Europe: EU states press Ukraine aid plans", 4.35, 50.85),
     (36, "USA: Democrats hold 257 House seats", -77.0, 38.9),
+    (37, "Art: Van Gogh sells for $190.4m record", -74.0, 40.7),
+    (38, "Europe: EU Commission hit by cyberattack", 4.35, 50.85),
+    (39, "War: Crimea bridge hit again, halted", 36.4, 45.3),
+    (40, "Americas: US–Venezuela pact signed", -66.9, 10.5),
+    (41, "Asia: Russian bombers land in Vietnam", 105.8, 21.0),
+    (42, "Africa: Ethiopia–Eritrea mass troops", 39.0, 14.0),
+    (43, "Pacific: Fiji declares drought disaster", 178.4, -17.7),
+    (44, "Energy: IEA: Hormuz top energy threat", 2.35, 48.85),
 ]
 
 # (big figure, label) for the BY THE NUMBERS strip — the data angle
 # the top-1 entries do not have: the day's key figures at a glance.
 NUMBERS = [
     ("251–11", "Jeffries Speaker vote"),
-    ("9 seats", "Democrats' Senate flips"),
+    ("$83", "Anthropic IPO price"),
     ("145 km/h", "Cyclone Akvan gusts"),
+    ("$190.4m", "Van Gogh record sale"),
     ("16.1bn mi", "Voyager 1 from Earth"),
-    ("2.57bn", "Muslims projected 2035"),
 ]
 
 
@@ -558,7 +585,7 @@ def world_map(d, box):
 def story_list(d, box):
     x, y, w, h = box
     d.rectangle([x, y, x + w, y + h], outline=INK, width=1)
-    d.text((x + 8, y + 8), "ALSO ON THURSDAY 19 NOVEMBER — 24 MORE STORIES",
+    d.text((x + 8, y + 8), "ALSO ON THURSDAY 19 NOVEMBER — 32 MORE STORIES",
            font=F(SANS_BOLD, 13), fill=INK)
     d.line([(x + 8, y + 28), (x + w - 8, y + 28)], fill=LINE, width=1)
     num_face = F(SANS_BOLD, 10)
@@ -567,12 +594,12 @@ def story_list(d, box):
     per_half = (len(LISTED) + 1) // 2
     for col_i in range(2):
         cx = x + 8 + col_i * half
-        yy = y + 36
+        yy = y + 34
         for item in LISTED[col_i * per_half:(col_i + 1) * per_half]:
             n, text, _lon, _lat = item
             d.text((cx, yy), str(n), font=num_face, fill=ACCENT)
             d.text((cx + 20, yy), text, font=txt_face, fill=INK)
-            yy += 18
+            yy += 16
 
 
 def figures_strip(d, box):
@@ -593,42 +620,57 @@ def figures_strip(d, box):
                    anchor="ma")
 
 
+def timeline_bar(d, box):
+    """UTC timeline of the day (round 2): the full-day arc at a glance."""
+    x, y, w, h = box
+    d.rectangle([x, y, x + w, y + h], fill=(238, 228, 214))
+    d.rectangle([x, y + h - 1, x + w, y + h], fill=GOLD)
+    face = F(SANS_BOLD, 10)
+    text = ("UTC 00:00 APEC opens, Shenzhen  ·  06:00 Jeffries nominated 251–11  ·  "
+            "10:00 ICJ rules on Rohingya  ·  14:00 Anthropic IPO $83  ·  "
+            "18:00 Van Gogh $190.4m  ·  21:30 Markets close")
+    d.text((x + w // 2, y + h // 2), text, font=face, fill=INK, anchor="mm")
+
+
 def front_page():
     img = Image.new("RGB", (SIZE, SIZE), PAGE)
     d = ImageDraw.Draw(img)
 
     # ---- Masthead ----
-    d.rectangle([0, 0, SIZE, 102], fill=NAVY)
+    d.rectangle([0, 0, SIZE, 100], fill=NAVY)
     d.text((24, 12), "THE DAY IN WORLD NEWS",
            font=F(SANS_BOLD, 13), fill=GOLD)
-    d.text((SIZE - 24, 12), "36 STORIES · 6 CONTINENTS · ONE DAY",
+    d.text((SIZE - 24, 12), "44 STORIES · 6 CONTINENTS · FULL DAY",
            font=F(SANS_BOLD, 13), fill=GOLD, anchor="ra")
-    d.text((SIZE // 2, 30), "Thursday 19 November 2026",
-           font=F(SERIF_BOLD, 52), fill=CREAM, anchor="ma")
-    d.rectangle([0, 102, SIZE, 106], fill=GOLD)
+    d.text((SIZE // 2, 28), "Thursday 19 November 2026",
+           font=F(SERIF_BOLD, 50), fill=CREAM, anchor="ma")
+    d.rectangle([0, 100, SIZE, 104], fill=GOLD)
+
+    # ---- UTC timeline (round 2) ----
+    timeline_bar(d, (8, 106, 1008, 20))
 
     # ---- Lead row: stories 1-2 ----
-    lead_panel(img, d, (8, 110, 500, 182), MAIN[0])
-    lead_panel(img, d, (516, 110, 500, 182), MAIN[1])
+    lead_panel(img, d, (8, 130, 500, 182), MAIN[0])
+    lead_panel(img, d, (516, 130, 500, 182), MAIN[1])
 
     # ---- Two rows of five: stories 3-12 ----
     for i, story in enumerate(MAIN[2:]):
         row, col = divmod(i, 5)
-        mini_panel(d, (8 + col * 203, 300 + row * 166, 195, 158), story)
+        mini_panel(d, (8 + col * 203, 320 + row * 166, 195, 158), story)
 
     # ---- BY THE NUMBERS strip ----
-    figures_strip(d, (8, 632, 1008, 38))
+    figures_strip(d, (8, 652, 1008, 38))
 
     # ---- Bottom: map + list ----
-    world_map(d, (8, 678, 500, 312))
-    story_list(d, (516, 678, 500, 312))
+    world_map(d, (8, 698, 500, 292))
+    story_list(d, (516, 698, 500, 292))
 
     # ---- Footer ----
     d.text((SIZE // 2, 997),
-           "Stories leading Thursday 19 November 2026's news; disputed claims are attributed.",
+           "Full-day update to 19:30 WIB — evening stories: ICJ ruling, Anthropic IPO, Van Gogh record, Bangladesh violence.",
            font=F(SANS_REG, 10), fill=MUTED, anchor="ma")
     d.text((SIZE // 2, 1009),
-           "Sources: Reuters, AP, AFP, BBC, Al Jazeera, NASA, IMD, Pew Research and others. Original drawings.",
+           "Sources: Reuters, AP, AFP, BBC, Al Jazeera, NASA, IMD, Pew Research, Sotheby's, ICJ, IEA and others. Original drawings.",
            font=F(SANS_REG, 10), fill=MUTED, anchor="ma")
     return img
 

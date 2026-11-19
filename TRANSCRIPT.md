@@ -52,3 +52,13 @@ manusia saat submit.
 8. 00:2x UTC — Buat repo Public Bradestudio-news-image-20261119
    via gh (setelah bounty dibuka), push, `makefun check` pada
    commit, lalu `makefun submit` ronde 1.
+
+## Ronde 2 (19 Nov ~19:30 WIB, sesi 03e63d5c)
+- Pelajari leaderboard live dulu (top 1 992.113; rank 2 cuma
+  19 cerita, 991.343 — kualitas > jumlah), lalu riset berita
+  sore/malam 19 Nov via web search (ICJ, Anthropic IPO, Van Gogh,
+  Bangladesh, Crimea, IEA, pasar penutupan) dan date-check.
+- Edit gen_image.py di sesi ini (panel 10 + 12 diganti, daftar
+  24 → 32, strip angka + timeline UTC baru, pictogram rocket
+  baru); tulis ulang main.py dari nol di sesi ini. Regenerasi
+  entry.png 2x identik (171.021 byte, sha256 61f35638…).

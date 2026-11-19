@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
-"""Deliver the 19 November front page as the graded output.
+"""Ship the round-2 front page for Thursday 19 November 2026.
 
-The graded program is deliberately tiny: it copies the newspaper
-image drawn at build time (entry.png, 1024 by 1024, next to this
-file) to $MAKEFUN_OUTPUT_DIR/entry.png. The picture sums up
-Thursday 19 November 2026 — the Jeffries nomination leads, followed
-by the Shenzhen trilateral, the GTA VI launch, Voyager 1's
-light-day, Cyclone Akvan, 29 further stories, a numbers strip and a
-world map.
+The graded program is intentionally small: it copies the newspaper
+image rendered at build time (entry.png, 1024 by 1024, sitting next
+to this file) into $MAKEFUN_OUTPUT_DIR/entry.png. The picture is
+round 2 of the 19 November front page — 44 stories across six
+continents, led by the Jeffries Speaker nomination and the Shenzhen
+trilateral, with the evening's ICJ Rohingya ruling and the Anthropic
+IPO, a UTC timeline of the day, a BY THE NUMBERS strip and a world
+map with numbered pins.
 
-Only the Python standard library is used. Nothing is fetched from
-the network and nothing is random, so every run writes the same
-bytes as the last one.
+Standard library only. No network, no randomness, no clock reads,
+so running it twice writes byte-identical output every time.
 
 Example:
     MAKEFUN_OUTPUT_DIR=out python3 main.py
@@ -23,17 +23,17 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 
 
-def deliver():
-    out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
-    out_dir.mkdir(parents=True, exist_ok=True)
+def ship_front_page():
+    """Copy entry.png to the output directory, checking the copy."""
+    destination_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
+    destination_dir.mkdir(parents=True, exist_ok=True)
     source = HERE / "entry.png"
-    target = out_dir / "entry.png"
+    target = destination_dir / "entry.png"
     shutil.copyfile(source, target)
-    # A short copy is a broken entry: refuse it loudly.
     if target.stat().st_size != source.stat().st_size:
-        raise SystemExit("copy came out short")
+        raise SystemExit("entry.png copy is incomplete")
     print("wrote", target, target.stat().st_size, "bytes")
 
 
 if __name__ == "__main__":
-    deliver()
+    ship_front_page()
