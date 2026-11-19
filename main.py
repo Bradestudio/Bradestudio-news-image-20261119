@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Ship the round-2 front page for Thursday 19 November 2026.
 
-The graded program is intentionally small: it copies the newspaper
+The graded program is deliberately tiny: it copies the newspaper
 image rendered at build time (entry.png, 1024 by 1024, sitting next
 to this file) into $MAKEFUN_OUTPUT_DIR/entry.png. The picture is
 round 2 of the 19 November front page — 44 stories across six

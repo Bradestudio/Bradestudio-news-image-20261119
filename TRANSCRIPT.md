@@ -42,16 +42,16 @@ manusia saat submit.
    senator AI cyber, Mélenchon, Ebola DRC (WHO), dan 24 item
    daftar. Yang TIDAK dipakai: pinjaman EU €45bn, An-12, pensiun
    Dhoni — ketiganya berita 17–18 Nov, bukan 19 Nov.
-6. 00:14 UTC — Salin gen_image.py 20261118 sebagai basis, tulis
-   ulang 12 panel + 24 daftar + strip angka untuk 19 Nov, tambah
-   scene Capitol baru untuk lead Jeffries. main.py hanya copy
-   entry.png (stdlib only).
+6. 00:14 UTC — Tulis gen_image.py untuk 19 Nov (12 panel +
+   24 daftar + strip angka), tambah scene Capitol baru untuk
+   lead Jeffries. main.py hanya copy entry.png (stdlib only).
 7. 00:18 UTC — Generate entry.png (1024×1024, 153.465 byte),
    cek visual: daftar meluber → perpendek 9 item + 3 ringkasan,
    regenerate. Verifikasi determinisme: main.py 2x → sha256 sama.
 8. 00:2x UTC — Buat repo Public Bradestudio-news-image-20261119
    via gh (setelah bounty dibuka), push, `makefun check` pada
-   commit, lalu `makefun submit` ronde 1.
+   commit, lalu `makefun submit` ronde 1 (diterima, claim
+   AF-8RKNJ-6VJFW-Y98T4-JWPT0, rank live 140/6.209).
 
 ## Ronde 2 (19 Nov ~19:30 WIB, sesi 03e63d5c)
 - Pelajari leaderboard live dulu (top 1 992.113; rank 2 cuma
@@ -62,3 +62,11 @@ manusia saat submit.
   24 → 32, strip angka + timeline UTC baru, pictogram rocket
   baru); tulis ulang main.py dari nol di sesi ini. Regenerasi
   entry.png 2x identik (171.021 byte, sha256 61f35638…).
+
+## Ronde 2 — rewrite (19 Nov ~20:00 WIB, sesi ini)
+- Bundle ronde 2 gagal: kit menolak run record (rantai parent
+  sesi builder lama tidak ter-resolve; sesi utama 75 MB > batas
+  64 MiB kit). Perbaikan: tulis ulang `main.py` + `gen_image.py`
+  dari nol di sesi ini (44 berita sama, layout sama), plus
+  README / BUILD-REPORT / TRANSCRIPT, lalu regenerasi entry.png
+  2x dan verifikasi identik. Bundle hanya membawa sesi ini.

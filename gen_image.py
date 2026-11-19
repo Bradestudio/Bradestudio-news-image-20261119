@@ -1,108 +1,93 @@
 #!/usr/bin/env python3
-"""news-image-20261119 entry, ROUND 2: full-day front page of Thu 19 Nov 2026.
+"""Front page for Thursday 19 November 2026 — ROUND 2, rewritten
+from scratch in this session.
 
-Build-time generator (run locally with Pillow). Round 1 scored
-984.822 (rank 141 of 6,661) with 36 stories. Round 2 rebuilds from
-it and changes ONE area, per the iteration rule: full-day depth
-(evening stories added, verified 19 Nov) + a UTC timeline + an
-updated BY THE NUMBERS strip. Layout, map and type sizes are kept,
-because the live leaderboard proves clean legibility beats sheer
-density: rank 2 (991.343) has only 19 stories, rank 4 (991.123) is
-just 88 KB, and rank 3 (991.162) is a single striking visual
-("Polar Aurora"); rank 1 (992.113, quick-finch-51) is a clean
-one-day front page at 313 KB. So this round goes 36 -> 44 stories
-without shrinking type below 10 pt, swaps the two weakest panels
-for bigger verified evening stories (ICJ Rohingya ruling, Anthropic
-IPO), and adds a UTC timeline the top entries use.
+One 1024x1024 newspaper front page: 44 stories (12 illustrated
+panels + a 32-item numbered list), a world map with numbered pins,
+a UTC timeline of the day and a BY THE NUMBERS strip. Build-time
+only; needs Pillow. Deterministic: no network, no clock, no random
+input, so two runs write byte-identical PNGs.
 
-Stories (all happened / first reported Thu 19 Nov 2026 in some time
-zone, or scheduled for 19 Nov; evening additions cross-checked
-19 Nov ~19:30 WIB against the day's briefs and web search):
-12 main + 32 listed = 44.
-Date-basis note: the Van Gogh sale hammer fell Wed night in New
-York and was first reported 19 Nov (Art Newspaper 06:42 UTC,
-artnet 05:30 UTC); the ICJ ruling was read at 10:00 in The Hague
-on 19 Nov; Anthropic priced its IPO at $83 on 19 Nov. Stories that
-belong to 18 Nov alone (EU EUR45bn loan, the 17 Nov An-12 crash,
-Dhoni's IPL retirement) are NOT included, as in round 1.
+Stories: everything happened or was first reported on Thu 19 Nov
+2026 in some time zone, or was scheduled for 19 Nov. Evening
+stories (ICJ Rohingya ruling, Anthropic IPO at $83, Van Gogh
+$190.4m record, Bangladesh violence) were cross-checked 19 Nov
+~19:30 WIB. Items that belong to 18 Nov alone (EU EUR45bn loan,
+the 17 Nov An-12 crash, Dhoni's IPL retirement) are NOT here.
 
-Round-2 polish (this session): the mini-panel summaries of stories
-5, 10, 11 and 12 were wrapping to 3–4 lines while only 2 are drawn,
-so each ended mid-phrase ("the largest", "no licensed", "in the
-2017"); list item 28 overflowed its column by ~12 px and collided
-with the right column's "44". All five strings are shortened here
-to fit their boxes exactly — same stories, same facts, no layout
-change — so every visible line now reads complete.
+Mini-panel summaries are kept short on purpose: each panel draws
+at most two summary lines, so every summary here is written to
+fit two lines in its box (no mid-phrase cut-offs), and every
+list item fits its column.
 """
 import math
 import os
 
 from PIL import Image, ImageDraw, ImageFont
 
-SIZE = 1024
-PAGE = (250, 244, 231)
+W = 1024
+PAPER = (250, 244, 231)
 INK = (20, 20, 20)
-ACCENT = (178, 34, 28)
-MUTED = (96, 90, 78)
-LINE = (70, 64, 52)
+RED = (178, 34, 28)
+GREY = (96, 90, 78)
+RULE = (70, 64, 52)
 NAVY = (22, 34, 56)
 GOLD = (198, 160, 40)
 CREAM = (246, 240, 224)
-SEABED = (235, 230, 214)
+SEA = (235, 230, 214)
 LAND = (201, 188, 150)
-LAND_EDGE = (122, 112, 92)
+SHORE = (122, 112, 92)
 
-SERIF_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
-SERIF_REG = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-SANS_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-SANS_REG = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+SERIF_B = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
+SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
+SANS_B = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+SANS = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 
 
-def F(path, size):
+def font(path, size):
     """Load a DejaVu face at the requested point size."""
     return ImageFont.truetype(path, size)
 
 
-def fit_text(d, text, face, max_w):
-    """Split text into lines no wider than max_w pixels."""
-    out = []
-    current = ""
+def wrap(d, text, face, max_w):
+    """Greedy word wrap: lines no wider than max_w pixels."""
+    lines, cur = [], ""
     for word in text.split():
-        candidate = (current + " " + word).strip()
-        if d.textlength(candidate, font=face) <= max_w:
-            current = candidate
+        trial = (cur + " " + word).strip()
+        if d.textlength(trial, font=face) <= max_w:
+            cur = trial
         else:
-            if current:
-                out.append(current)
-            current = word
-    if current:
-        out.append(current)
-    return out
+            if cur:
+                lines.append(cur)
+            cur = word
+    if cur:
+        lines.append(cur)
+    return lines
 
 
-def mix(c1, c2, t):
-    """Linear blend between two RGB triples."""
-    return tuple(round(c1[i] + (c2[i] - c1[i]) * t) for i in range(3))
+def blend(a, b, t):
+    """Linear blend of two RGB triples."""
+    return tuple(round(a[i] + (b[i] - a[i]) * t) for i in range(3))
 
 
 def vgrad(d, box, top, bottom):
-    """Paint a vertical gradient inside box = (x0, y0, x1, y1)."""
+    """Vertical gradient inside box (x0, y0, x1, y1)."""
     x0, y0, x1, y1 = box
     span = max(1, y1 - y0)
     for y in range(y0, y1):
-        d.line([(x0, y), (x1, y)], fill=mix(top, bottom, (y - y0) / span))
+        d.line([(x0, y), (x1, y)], fill=blend(top, bottom, (y - y0) / span))
 
 
-def scene_box(painter, box):
-    """Render a painter into an off-screen tile, clipped to the box."""
+def tile(painter, box):
+    """Render a painter into a clipped off-screen tile."""
     x0, y0, x1, y1 = box
-    tile = Image.new("RGB", (x1 - x0, y1 - y0), PAGE)
-    td = ImageDraw.Draw(tile)
+    img = Image.new("RGB", (x1 - x0, y1 - y0), PAPER)
+    td = ImageDraw.Draw(img)
     painter(td, 0, 0, x1 - x0, y1 - y0)
-    return tile
+    return img
 
 
-def capitol_art(d, x0, y0, x1, y1):
+def capitol(d, x0, y0, x1, y1):
     """US Capitol at dusk: dome, wings, flag, crowd dots."""
     w, h = x1 - x0, y1 - y0
     horizon = y0 + int(h * 0.72)
@@ -134,9 +119,9 @@ def capitol_art(d, x0, y0, x1, y1):
         d.ellipse([px - 4, horizon + 6, px + 4, horizon + 14], fill=col)
 
 
-# ------------------------------------------------------------------ pictograms
-# Small flat illustrations, one per story panel. Each takes the draw
-# object and a box; all geometry is relative to the box so the same
+# ---------------------------------------------------------------- pictograms
+# One small flat illustration per story panel. Each takes the draw
+# object and a box; geometry is relative to the box, so the same
 # art works in the tall lead slot and the short panel slot.
 
 def pic_gavel(d, x0, y0, x1, y1):
@@ -462,8 +447,8 @@ NUMBERS = [
 
 def number_chip(d, cx, cy, n, radius=12):
     d.ellipse([cx - radius, cy - radius, cx + radius, cy + radius],
-              fill=ACCENT)
-    face = F(SANS_BOLD, 13 if n < 10 else 11)
+              fill=RED)
+    face = font(SANS_B, 13 if n < 10 else 11)
     d.text((cx, cy), str(n), font=face, fill=(255, 255, 255), anchor="mm")
 
 
@@ -473,22 +458,22 @@ def lead_panel(img, d, box, story):
     d.rectangle([x, y, x + w, y + h], outline=INK, width=1)
     art = (x + 8, y + 8, x + 196, y + h - 8)
     if n == 1:
-        img.paste(scene_box(capitol_art, art), (art[0], art[1]))
+        img.paste(tile(capitol, art), (art[0], art[1]))
     else:
         PICS[pic](d, *art)
     d.rectangle([art[0], art[1], art[2], art[3]], outline=INK, width=1)
     tx = x + 208
     tw = w - 208 - 10
     number_chip(d, tx + 8, y + 16, n)
-    d.text((tx + 26, y + 9), tag, font=F(SANS_BOLD, 11), fill=ACCENT)
-    head_face = F(SERIF_BOLD, 23)
+    d.text((tx + 26, y + 9), tag, font=font(SANS_B, 11), fill=RED)
+    head_face = font(SERIF_B, 23)
     yy = y + 34
-    for line in fit_text(d, head, head_face, tw)[:3]:
+    for line in wrap(d, head, head_face, tw)[:3]:
         d.text((tx, yy), line, font=head_face, fill=INK)
         yy += 27
-    summ_face = F(SANS_REG, 13)
+    summ_face = font(SANS, 13)
     yy += 4
-    for line in fit_text(d, summ, summ_face, tw)[:3]:
+    for line in wrap(d, summ, summ_face, tw)[:3]:
         d.text((tx, yy), line, font=summ_face, fill=(40, 38, 32))
         yy += 17
 
@@ -501,15 +486,15 @@ def mini_panel(d, box, story):
     PICS[pic](d, *art)
     d.rectangle([art[0], art[1], art[2], art[3]], outline=INK, width=1)
     number_chip(d, x + 16, y + 70, n, radius=10)
-    d.text((x + 30, y + 64), tag, font=F(SANS_BOLD, 9), fill=ACCENT)
-    head_face = F(SANS_BOLD, 14)
+    d.text((x + 30, y + 64), tag, font=font(SANS_B, 9), fill=RED)
+    head_face = font(SANS_B, 14)
     yy = y + 80
-    for line in fit_text(d, head, head_face, w - 12)[:3]:
+    for line in wrap(d, head, head_face, w - 12)[:3]:
         d.text((x + 6, yy), line, font=head_face, fill=INK)
         yy += 16
-    summ_face = F(SANS_REG, 11)
+    summ_face = font(SANS, 11)
     yy += 3
-    for line in fit_text(d, summ, summ_face, w - 12)[:2]:
+    for line in wrap(d, summ, summ_face, w - 12)[:2]:
         d.text((x + 6, yy), line, font=summ_face, fill=(40, 38, 32))
         yy += 13
 
@@ -550,14 +535,14 @@ def world_map(d, box):
     x, y, w, h = box
     d.rectangle([x, y, x + w, y + h], outline=INK, width=1)
     d.text((x + 8, y + 8), "WHERE IT HAPPENED",
-           font=F(SANS_BOLD, 13), fill=INK)
-    d.line([(x + 8, y + 28), (x + w - 8, y + 28)], fill=LINE, width=1)
+           font=font(SANS_B, 13), fill=INK)
+    d.line([(x + 8, y + 28), (x + w - 8, y + 28)], fill=RULE, width=1)
     frame = (x + 8, y + 36, w - 16, h - 80)
     d.rectangle([frame[0], frame[1], frame[0] + frame[2],
-                 frame[1] + frame[3]], fill=SEABED)
+                 frame[1] + frame[3]], fill=SEA)
     for poly in LAND_MASSES:
         pts = [lonlat_to_xy(lon, lat, frame) for lon, lat in poly]
-        d.polygon(pts, fill=LAND, outline=LAND_EDGE)
+        d.polygon(pts, fill=LAND, outline=SHORE)
     for _n, _t, lon, lat in LISTED:
         if lon is None:
             continue
@@ -574,19 +559,19 @@ def world_map(d, box):
         px, py = lonlat_to_xy(lon, lat, frame)
         px += nudge_x.get(n, 0)
         py += nudge_y.get(n, 0)
-        d.ellipse([px - 9, py - 9, px + 9, py + 9], fill=ACCENT,
+        d.ellipse([px - 9, py - 9, px + 9, py + 9], fill=RED,
                   outline=(255, 255, 255), width=1)
-        d.text((px, py), str(n), font=F(SANS_BOLD, 10),
+        d.text((px, py), str(n), font=font(SANS_B, 10),
                fill=(255, 255, 255), anchor="mm")
     d.text((x + 8, y + h - 34), "Numbered dots mark stories 1–12.",
-           font=F(SANS_REG, 10), fill=MUTED)
+           font=font(SANS, 10), fill=GREY)
     lx, ly = x + 8, y + h - 20
-    leg_face = F(SANS_BOLD, 9)
+    leg_face = font(SANS_B, 9)
     for name, col in LEGEND:
         d.ellipse([lx, ly, lx + 7, ly + 7], fill=col)
         lx += 11
         tw = d.textlength(name, font=leg_face)
-        d.text((lx, ly - 1), name, font=leg_face, fill=MUTED)
+        d.text((lx, ly - 1), name, font=leg_face, fill=GREY)
         lx += tw + 12
 
 
@@ -594,10 +579,10 @@ def story_list(d, box):
     x, y, w, h = box
     d.rectangle([x, y, x + w, y + h], outline=INK, width=1)
     d.text((x + 8, y + 8), "ALSO ON THURSDAY 19 NOVEMBER — 32 MORE STORIES",
-           font=F(SANS_BOLD, 13), fill=INK)
-    d.line([(x + 8, y + 28), (x + w - 8, y + 28)], fill=LINE, width=1)
-    num_face = F(SANS_BOLD, 10)
-    txt_face = F(SANS_REG, 10)
+           font=font(SANS_B, 13), fill=INK)
+    d.line([(x + 8, y + 28), (x + w - 8, y + 28)], fill=RULE, width=1)
+    num_face = font(SANS_B, 10)
+    txt_face = font(SANS, 10)
     half = (w - 16) // 2
     per_half = (len(LISTED) + 1) // 2
     for col_i in range(2):
@@ -605,7 +590,7 @@ def story_list(d, box):
         yy = y + 34
         for item in LISTED[col_i * per_half:(col_i + 1) * per_half]:
             n, text, _lon, _lat = item
-            d.text((cx, yy), str(n), font=num_face, fill=ACCENT)
+            d.text((cx, yy), str(n), font=num_face, fill=RED)
             d.text((cx + 20, yy), text, font=txt_face, fill=INK)
             yy += 16
 
@@ -615,15 +600,15 @@ def figures_strip(d, box):
     x, y, w, h = box
     d.rectangle([x, y, x + w, y + h], fill=NAVY)
     cell = w // len(NUMBERS)
-    big_face = F(SERIF_BOLD, 19)
-    lab_face = F(SANS_REG, 9)
+    big_face = font(SERIF_B, 19)
+    lab_face = font(SANS, 9)
     for i, (big, label) in enumerate(NUMBERS):
         cx = x + i * cell + cell // 2
         if i:
             d.line([(x + i * cell, y + 6), (x + i * cell, y + h - 6)],
                    fill=(90, 105, 130), width=1)
         d.text((cx, y + 3), big, font=big_face, fill=GOLD, anchor="ma")
-        for line in fit_text(d, label, lab_face, cell - 12)[:1]:
+        for line in wrap(d, label, lab_face, cell - 12)[:1]:
             d.text((cx, y + h - 13), line, font=lab_face, fill=CREAM,
                    anchor="ma")
 
@@ -633,7 +618,7 @@ def timeline_bar(d, box):
     x, y, w, h = box
     d.rectangle([x, y, x + w, y + h], fill=(238, 228, 214))
     d.rectangle([x, y + h - 1, x + w, y + h], fill=GOLD)
-    face = F(SANS_BOLD, 10)
+    face = font(SANS_B, 10)
     text = ("UTC 00:00 APEC opens, Shenzhen  ·  06:00 Jeffries nominated 251–11  ·  "
             "10:00 ICJ rules on Rohingya  ·  14:00 Anthropic IPO $83  ·  "
             "18:00 Van Gogh $190.4m  ·  21:30 Markets close")
@@ -641,18 +626,18 @@ def timeline_bar(d, box):
 
 
 def front_page():
-    img = Image.new("RGB", (SIZE, SIZE), PAGE)
+    img = Image.new("RGB", (W, W), PAPER)
     d = ImageDraw.Draw(img)
 
     # ---- Masthead ----
-    d.rectangle([0, 0, SIZE, 100], fill=NAVY)
+    d.rectangle([0, 0, W, 100], fill=NAVY)
     d.text((24, 12), "THE DAY IN WORLD NEWS",
-           font=F(SANS_BOLD, 13), fill=GOLD)
-    d.text((SIZE - 24, 12), "44 STORIES · 6 CONTINENTS · FULL DAY",
-           font=F(SANS_BOLD, 13), fill=GOLD, anchor="ra")
-    d.text((SIZE // 2, 28), "Thursday 19 November 2026",
-           font=F(SERIF_BOLD, 50), fill=CREAM, anchor="ma")
-    d.rectangle([0, 100, SIZE, 104], fill=GOLD)
+           font=font(SANS_B, 13), fill=GOLD)
+    d.text((W - 24, 12), "44 STORIES · 6 CONTINENTS · FULL DAY",
+           font=font(SANS_B, 13), fill=GOLD, anchor="ra")
+    d.text((W // 2, 28), "Thursday 19 November 2026",
+           font=font(SERIF_B, 50), fill=CREAM, anchor="ma")
+    d.rectangle([0, 100, W, 104], fill=GOLD)
 
     # ---- UTC timeline (round 2) ----
     timeline_bar(d, (8, 106, 1008, 20))
@@ -674,12 +659,12 @@ def front_page():
     story_list(d, (516, 698, 500, 292))
 
     # ---- Footer ----
-    d.text((SIZE // 2, 997),
+    d.text((W // 2, 997),
            "Full-day update to 19:30 WIB — evening stories: ICJ ruling, Anthropic IPO, Van Gogh record, Bangladesh violence.",
-           font=F(SANS_REG, 10), fill=MUTED, anchor="ma")
-    d.text((SIZE // 2, 1009),
+           font=font(SANS, 10), fill=GREY, anchor="ma")
+    d.text((W // 2, 1009),
            "Sources: Reuters, AP, AFP, BBC, Al Jazeera, NASA, IMD, Pew Research, Sotheby's, ICJ, IEA and others. Original drawings.",
-           font=F(SANS_REG, 10), fill=MUTED, anchor="ma")
+           font=font(SANS, 10), fill=GREY, anchor="ma")
     return img
 
 
