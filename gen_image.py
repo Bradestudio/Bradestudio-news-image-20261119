@@ -508,7 +508,7 @@ MAIN = [
      "scales", -150.0, 64.0),
     (9, "TRADE · CHINA–CANADA",
      "Canada resets China ties as Carney meets Xi",
-     "Ottawa seeks the right deal with Beijing — and with Washington — after years of frost.",
+     "Ottawa seeks the right deal with Beijing — and with Washington.",
      "chart", 116.4, 39.9),
     (10, "TECH · SECURITY",
      "Senators: AI cyber threats outpace defences",
