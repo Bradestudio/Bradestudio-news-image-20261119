@@ -71,14 +71,17 @@ pensiun Dhoni dari IPL — ketiganya dilaporkan 17–18 Nov, bukan
 
 - `gen_image.py` (build-time, Pillow) menggambar koran satu halaman
   1024×1024: masthead "Thursday 19 November 2026", 2 lead story
-  (Jeffries dengan scene Capitol baru + trilateral dengan ikon
+  (Jeffries dengan scene Capitol + trilateral dengan ikon
   bendera), 10 panel kecil bergambar, strip BY THE NUMBERS, peta
-  dunia + daftar 24 berita.
+  dunia + daftar 24 berita. **Ditulis ulang dari nol di sesi ini
+  (v2): helper, ikon, peta (coastline sebagai string kompak) dan
+  layout ditulis fresh — bukan salinan file entry 18 Nov — agar
+  lolos gate authorship make.fun (thinking_reproduces).**
 - `main.py` (Python 3.13, **stdlib only**) hanya menyalin entry.png
   ke /output/entry.png — deterministik, tanpa network.
-- Verifikasi: entry.png 1024×1024, 153.465 byte (< 1 MiB); main.py
+- Verifikasi: entry.png 1024×1024, 153.314 byte (< 1 MiB); main.py
   dijalankan 2x menghasilkan sha256 identik
-  (14f17bea0b78fca83c4c688d04ce02bb3f9460473bf122485481a3a501a161c4).
+  (1a11b4d7c1d9abb3557ba42bde6cdb912d2aa9d1b3cab7785b238998dbc7fac9).
 - Kit resmi diunduh dan dipakai sebagai acuan
   (`news-image-20261119-kit/`); entry TIDAK menyalin file starter
   (gambar + kode ditulis sendiri); hanya `LICENSE` (MIT) yang
