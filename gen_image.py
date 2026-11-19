@@ -134,22 +134,58 @@ def pic_gavel(d, x0, y0, x1, y1):
 
 
 def pic_flags(d, x0, y0, x1, y1):
-    d.rectangle([x0, y0, x1, y1], fill=(224, 229, 239))
-    third = (x1 - x0) // 3
-    sets = [((178, 34, 52), (255, 255, 255), (60, 60, 120)),
-            ((222, 41, 16), (255, 222, 0), None),
-            ((255, 255, 255), (0, 57, 166), (213, 0, 50))]
-    for i, (a, b, c) in enumerate(sets):
-        px = x0 + 18 + i * third
-        d.rectangle([px, y0 + 8, px + 3, y1 - 8], fill=(64, 56, 44))
-        fy = y0 + 8
-        if c is None:
-            d.rectangle([px + 3, fy, px + 30, fy + 24], fill=a)
-            d.ellipse([px + 12, fy + 8, px + 20, fy + 16], fill=b)
-        else:
-            d.rectangle([px + 3, fy, px + 30, fy + 8], fill=a)
-            d.rectangle([px + 3, fy + 8, px + 30, fy + 16], fill=b)
-            d.rectangle([px + 3, fy + 16, px + 30, fy + 24], fill=c)
+    """Shenzhen summit: three large flags over a skyline, leaders
+    seated at a summit table. The old version drew three tiny flags
+    at the top and left most of the art box empty pale blue; this
+    fills the whole box so the lead panel reads at a glance."""
+    vgrad(d, (x0, y0, x1, y1), (212, 222, 238), (242, 228, 202))
+    w, h = x1 - x0, y1 - y0
+    base = y1 - int(h * 0.34)
+    # Shenzhen skyline silhouette behind the flags.
+    sky = [(0.03, 0.30), (0.17, 0.42), (0.31, 0.26), (0.45, 0.46),
+           (0.59, 0.32), (0.73, 0.44), (0.86, 0.28)]
+    for frac, fh in sky:
+        bx = x0 + int(w * frac)
+        bw = int(w * 0.12)
+        d.rectangle([bx, base - int(h * fh), bx + bw, base],
+                    fill=(58, 64, 82))
+    # Three large flags on tall poles: USA, China, Russia.
+    fw, fh = int(w * 0.26), int(h * 0.20)
+    fy = y0 + int(h * 0.06)
+    for i, frac in enumerate((0.17, 0.50, 0.83)):
+        px = x0 + int(w * frac)
+        d.rectangle([px - 1, fy, px + 1, base], fill=(64, 56, 44))
+        fx0, fx1 = px + 2, px + 2 + fw
+        if i == 0:  # USA: stripes + blue canton
+            for s in range(7):
+                col = (178, 34, 52) if s % 2 == 0 else (255, 255, 255)
+                d.rectangle([fx0, fy + s * fh // 7, fx1,
+                             fy + (s + 1) * fh // 7], fill=col)
+            d.rectangle([fx0, fy, fx0 + fw // 2, fy + 4 * fh // 7],
+                        fill=(40, 60, 120))
+        elif i == 1:  # China: red field, yellow stars
+            d.rectangle([fx0, fy, fx1, fy + fh], fill=(222, 41, 16))
+            d.ellipse([fx0 + 5, fy + 5, fx0 + 13, fy + 13],
+                      fill=(255, 222, 0))
+            for sx, sy in ((fx0 + 20, fy + 4), (fx0 + 24, fy + 10),
+                           (fx0 + 20, fy + 16), (fx0 + 14, fy + 18)):
+                d.ellipse([sx, sy, sx + 3, sy + 3], fill=(255, 222, 0))
+        else:  # Russia: white / blue / red bands
+            for j, col in enumerate(((255, 255, 255), (0, 57, 166),
+                                     (213, 0, 50))):
+                d.rectangle([fx0, fy + j * fh // 3, fx1,
+                             fy + (j + 1) * fh // 3], fill=col)
+        d.rectangle([fx0, fy, fx1, fy + fh], outline=(64, 56, 44))
+    # Summit table with three seated leaders.
+    d.rectangle([x0 + 6, base, x1 - 6, y1 - 6], fill=(96, 66, 40))
+    d.rectangle([x0 + 6, base, x1 - 6, base + 4], fill=(120, 84, 52))
+    for frac, suit in ((0.20, (38, 38, 48)), (0.50, (150, 42, 36)),
+                       (0.80, (38, 38, 48))):
+        cx = x0 + int(w * frac)
+        d.ellipse([cx - 9, base - 26, cx + 9, base - 8],
+                  fill=(226, 196, 160))
+        d.pieslice([cx - 15, base - 10, cx + 15, base + 12], 180, 360,
+                   fill=suit)
 
 
 def pic_burst(d, x0, y0, x1, y1):

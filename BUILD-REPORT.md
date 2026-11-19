@@ -66,6 +66,15 @@ Van Gogh $190,4m; EU Commission cyberattack; Jembatan Crimea;
 AS–Venezuela; bomber Rusia di Vietnam; Ethiopia–Eritrea;
 Fiji kekeringan; IEA Hormuz.
 
+## Polish di sesi terjadwal ini (19 Nov ~20:36 WIB)
+
+Panel terlemah di ronde 2 adalah ilustrasi panel 2 (trilateral
+Shenzhen): tiga bendera kecil di atas dan sebagian besar kotak
+seni kosong biru pucat. `pic_flags` ditulis ulang di sesi ini:
+tiga bendera besar (AS, China, Rusia) di atas siluet skyline
+Shenzhen + meja KTT dengan tiga pemimpin duduk — kotak seni kini
+terisi penuh. Isi berita tidak berubah (tetap 44 cerita).
+
 ## Rewrite di sesi ini (19 Nov ~20:00 WIB)
 
 Build ronde 2 sebelumnya (commit 25959e0 + polish 2197235)
