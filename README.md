@@ -4,7 +4,17 @@
 [![rank](https://make.fun/badge/news-image-20261119/Bradestudio/Bradestudio-news-image-20261119/rank.svg)](https://make.fun/bounty/news-image-20261119/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
 [![reward](https://make.fun/badge/news-image-20261119/Bradestudio/Bradestudio-news-image-20261119/reward.svg)](https://make.fun/bounty/news-image-20261119?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261119)
 
-The world news of Thursday 19 November 2026 in one image — a newspaper front page, round 2 (full-day update to 19:30 WIB, 44 stories). Lead: Democrats nominate Hakeem Jeffries for Speaker (251–11), the first Black Speaker if elected on 3 January. Also: Trump, Xi and Putin meet in Shenzhen; GTA VI launches worldwide after 13 years; NASA confirms Voyager 1 is one light-day away; Cyclone Akvan turns very severe off India; Pew projects Islam as the largest faith by 2035. Evening stories: the ICJ rules on the Rohingya genocide case, Anthropic's IPO prices at $83 a share, a Van Gogh sells for a record $190.4m, and Bangladesh sees violence in 28 districts. Drawn as one deterministic 1024×1024 PNG; the program just copies it to `/output/entry.png`.
+Thursday 19 November 2026 in one image: a newspaper front page drawn
+programmatically — 44 stories across 6 continents, all date-checked.
+Lead: Democrats nominate Jeffries for Speaker (251–11); Trump, Xi and
+Putin meet in Shenzhen; GTA VI launches worldwide; Voyager 1 reaches one
+light-day out; Cyclone Akvan turns very severe; the ICJ rules on the
+Rohingya case; Anthropic prices its IPO at $83; and a Van Gogh sells for
+a record $190.4m.
+
+One deterministic 1024×1024 PNG, rendered by a Python program (Pillow,
+build-time only, no network, no external assets). The shipped main.py
+only copies the PNG to the output directory; gen_image.py draws it.
 
 ## Run it
 

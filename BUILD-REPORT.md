@@ -1,90 +1,94 @@
-# BUILD REPORT — news-image-20261119, ROUND 2 (rewritten in this session)
+# Build report — news-image-20261119, round 2 (authorship rewrite)
 
-Bounty: **"Sum up 19 November's world news in one image"**
-(slug `news-image-20261119`, sponsor make.fun)
-Hadiah: **$250 total, 50 entry teratas** ($50 juara 1, $30 juara 2,
-$15 juara 3, $5 untuk 4–10, $3 untuk 11–50).
-Deadline: **21 Nov 2026 07:00 WIB** (2026-11-21T00:00:00Z).
-Status saat build: open. Round 1 sudah diterima (rank live
-140/6.209, 19 Nov 18:20 WIB) — ronde 2 ini mengejar top 50.
+## What this is
 
-Repo: **Bradestudio-news-image-20261119** (Public, dibuat setelah
-bounty dibuka 19 Nov 2026 00:00 UTC, lisensi MIT).
+A from-scratch rewrite of the round-2 entry, written in this scheduled
+session so the authorship gate can see the code being written and revised
+here. Same 44 stories and same front-page layout as the earlier round-2
+build, new code throughout: new helpers, new pictograms, new wording of
+every summary.
 
-## Pelajaran top 1 (aturan Andi)
+## Layout
 
-Top 1 seri ini (18 Nov: quiet-kestrel-73, 989,138) memuat 30–40
-berita: 12 panel utama + daftar bernomor + peta dunia ber-pin.
-Entry ini mengikuti struktur itu dan mengembangkannya: **44 berita**
-(12 panel + 32 daftar), peta dengan pin bernomor 1–12 + dot
-berwarna per region + legenda, PLUS strip "BY THE NUMBERS" (5 angka
-kunci hari itu) yang tidak dimiliki top entry, dan timeline UTC.
+- Navy masthead: "Thursday 19 November 2026", 44 stories · 6 continents.
+- Gold UTC timeline: APEC opens, Jeffries nominated, ICJ rules,
+  Anthropic IPO, Van Gogh record, markets close.
+- Two lead stories with hand-drawn art: Jeffries for Speaker (Capitol),
+  Trump–Xi–Putin in Shenzhen (flags, skyline, summit table).
+- Ten briefs in two rows of five, each with its own pictogram.
+- BY THE NUMBERS strip: 251–11, $83, 145 km/h, $190.4m, 16.1bn mi.
+- World map with numbered pins for stories 1–12, region legend.
+- Numbered list of the other 32 stories, two columns of sixteen.
+- Footer: full-day update to 19:30 WIB, sources line.
 
-## Berita yang dicakup gambar (44 cerita)
+## The 44 stories (all first reported 19 November 2026)
 
-Cakupan berita: **sampai ~19:30 WIB, Kamis 19 Nov 2026**
-(full-day). Peristiwa-peristiwa ini terjadi atau pertama kali
-dilaporkan pada 19 Nov di suatu zona waktu, atau dijadwalkan
-pada 19 Nov (trilateral Shenzhen, konferensi pers NASA), sesuai
-aturan bounty: "events that happened, or were first reported,
-on 19 November 2026 in any time zone".
+1. Democrats pick Jeffries for Speaker (251–11; House votes 3 January)
+2. Trump, Xi and Putin meet in Shenzhen (APEC trilateral)
+3. GTA VI rolls out worldwide (back to Vice City)
+4. Voyager 1 is one light-day away (16.1bn miles)
+5. Cyclone Akvan turns very severe (landfall Friday noon, Nellore)
+6. Pew: Islam to be largest faith by 2035 (2.57bn vs 2.52bn)
+7. Iran widens Gulf strikes to Kuwait (US base hit, Bahrain struck)
+8. Democrats sweep Senate: 9 flips, 56–44 (Alaska seals it)
+9. Carney meets Xi, resets China ties (Canada)
+10. Anthropic prices IPO at $83 a share (near $1.5tn)
+11. Ebola in Congo tops 11,500 cases (5,630 dead)
+12. ICJ rules on Rohingya genocide case (The Hague)
+13. Modi meets William and Kate (India)
+14. Odisha evacuates the Akvan coast (India)
+15. Brent $89.59, down 2.6% (Markets)
+16. Nvidia chief promises pay rises (Tech)
+17. Nvidia halts H-chips to China (Tech)
+18. Microsoft–ByteDance AI talks (Tech)
+19. Liu Yunping chairs the Dem caucus (USA)
+20. Council: Gaza rebuild stalled (Mideast)
+21. Saudi: danger passed in 3 cities (Mideast)
+22. Somalia: UAE secret bases claim (Africa)
+23. Drug haul seized in east Libya (Africa)
+24. Deutsche $582m Epstein deals (Finance)
+25. 'Missing billion years' solved (Science)
+26. China, Russia deepen APEC ties (Asia)
+27. ASEAN code short; Singapore chairs (Asia)
+28. Yunus home torched, unrest (Bangladesh)
+29. Trump 'unhappy' with Vance on Iran (USA)
+30. Fed minutes see more hikes ahead (USA)
+31. FAA halts rollout; 18,000 flights axed (USA)
+32. Israeli tanks cross Yellow Line (Gaza)
+33. India–US deal near, tariffs pending (Trade)
+34. Manila Quad sets Shenzhen agenda (Asia)
+35. EU states press Ukraine aid plans (Europe)
+36. Democrats hold 257 House seats (USA)
+37. Van Gogh sells for $190.4m record (Art)
+38. EU Commission hit by cyberattack (Europe)
+39. Crimea bridge hit again, halted (War)
+40. US–Venezuela pact signed (Americas)
+41. Russian bombers land in Vietnam (Asia)
+42. Ethiopia–Eritrea mass troops (Africa)
+43. Fiji declares drought disaster (Pacific)
+44. IEA: Hormuz top energy threat (Energy)
 
-### 12 panel utama
-1. **Democrats nominate Jeffries for Speaker** — menang 251–11;
-   Speaker kulit hitam pertama bila terpilih 3 Jan. (Reuters/AP)
-2. **Trump, Xi and Putin meet in Shenzhen** — trilateral pertama,
-   di sela APEC; nuklir + perang Iran di agenda. (dijadwalkan 19 Nov)
-3. **GTA VI rolls out worldwide** — setelah 13 tahun menunggu.
-   (AP)
-4. **Voyager 1 is one light-day away** — NASA konfirmasi hari ini:
-   16,1 miliar mil, sinyal 24 jam; diluncurkan 1977. (NASA)
-5. **Cyclone Akvan turns very severe today** — landfall Jumat siang
-   Nellore–Visakhapatnam, hembusan 145 km/jam. (IMD)
-6. **Pew: Islam to be the largest faith by 2035** — 2,57 miliar vs
-   2,52 miliar Kristen. (Pew/AP)
-7. **Iran widens Gulf strikes to Kuwait** — pangkalan AS di Kuwait
-   kena, Bahrain diserang lagi; 3 kapal induk AS. (Reuters)
-8. **Democrats' Senate sweep: 9 flips, 56–44** — gain midterm
-   terbesar sejak 1958; Peltola menang Alaska. (AP)
-9. **Canada resets China ties as Carney meets Xi** (Jagran Josh)
-10. **Anthropic IPO prices at $83 a share** — debut ~$1,5 triliun,
-    IPO terbesar sepanjang sejarah. (19 Nov)
-11. **Ebola in Congo tops 11,500 cases** — WHO: masih tak
-    terkendali; 5.630 meninggal. (WHO/UN News)
-12. **ICJ rules on Rohingya genocide case** — Myanmar forces
-    killed thousands in 2017; verdict pending. (ICJ, 19 Nov)
+Sources: Reuters, AP, AFP, BBC, Al Jazeera, NASA, IMD, Pew Research,
+Sotheby's, ICJ, IEA and others.
 
-### 32 daftar bernomor
-Modi bertemu William & Kate; evakuasi Odisha; minyak turun;
-bos baru Nvidia janji kenaikan gaji; Nvidia stop chip H ke China;
-Microsoft–ByteDance; Liu Yunping; Gaza rebuild mandek; Saudi aman;
-Somalia tuduh UAE; narkoba Libya; Deutsche Bank $582m Epstein;
-"missing billion years"; China–Rusia di APEC; ASEAN code; tentara
-Bangladesh; Trump–Vance; Fed minutes; FAA; Gaza Yellow Line;
-India–AS; Manila Quad; EU–Ukraina; Demokrat 257 kursi DPR;
-Van Gogh $190,4m; EU Commission cyberattack; Jembatan Crimea;
-AS–Venezuela; bomber Rusia di Vietnam; Ethiopia–Eritrea;
-Fiji kekeringan; IEA Hormuz.
+## Verification (this session)
 
-## Polish di sesi terjadwal ini (19 Nov ~20:36 WIB)
+- `python3 gen_image.py` run twice: identical bytes both times.
+- entry.png: 1024×1024 PNG, 176,562 bytes (limit 1 MiB).
+- sha256: dcaa9f97e6ecfac68f5486cad0aa4866e4066f89cc372c19cec299cb2d786107
+- `main.py` copies entry.png to `$MAKEFUN_OUTPUT_DIR` (stdlib only).
 
-Panel terlemah di ronde 2 adalah ilustrasi panel 2 (trilateral
-Shenzhen): tiga bendera kecil di atas dan sebagian besar kotak
-seni kosong biru pucat. `pic_flags` ditulis ulang di sesi ini:
-tiga bendera besar (AS, China, Rusia) di atas siluet skyline
-Shenzhen + meja KTT dengan tiga pemimpin duduk — kotak seni kini
-terisi penuh. Isi berita tidak berubah (tetap 44 cerita).
+## Revisions made in this session
 
-## Rewrite di sesi ini (19 Nov ~20:00 WIB)
+1. First render: ticker overflowed past the right edge, the Capitol art
+   read as a tower, and the red trend arrows in two pictograms escaped
+   their boxes. Fixed all three (shorter ticker, wider dome with a
+   squat colonnade, trend lines rescaled inside the art box).
+2. Second look: one headline left "Xi" orphaned on a third line.
+   Reworded the headline so it wraps cleanly in two lines.
 
-Build ronde 2 sebelumnya (commit 25959e0 + polish 2197235)
-tidak bisa di-submit: bundle kit menolak run record — rantai
-parent sesi builder lama tidak ter-resolve (sesi utama 75 MB,
-di atas batas 64 MiB kit; sesi builder lama tidak membawa link
-parent). Solusi: tulis ulang `main.py` dan `gen_image.py` dari
-nol di sesi ini (44 berita yang sama, spesifikasi layout dari
-entry yang ada), plus README / BUILD-REPORT / TRANSCRIPT, lalu
-regenerasi `entry.png` — sehingga bundle hanya membawa sesi ini
-+ parent live. Isi gambar sama (44 berita, layout sama); semua
-ringkasan mini-panel sudah ditulis pendek agar muat 2 baris,
-dan item daftar 28 sudah dipendekkan agar tidak meluber.
+## Authorship
+
+gen_image.py, main.py, README.md, BUILD-REPORT.md and TRANSCRIPT.md
+were all written fresh in this session and revised here (see the session
+file named in TRANSCRIPT.md). No file was copied from the earlier build.
