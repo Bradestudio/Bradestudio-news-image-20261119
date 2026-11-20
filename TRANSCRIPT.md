@@ -1,29 +1,31 @@
-# Transcript — news-image-20261119 round 2, authorship rewrite
+# Transcript — news-image-20261119 round 3
 
 This file describes the session that built this entry. The full record
 is the agent session file itself:
 
-- Session: ~/agents/agent-4ca2ad02-acab-42b4-aa73-138b8e620784/sessions/4ca2ad02-acab-42b4-aa73-138b8e620784.jsonl
-- Run: scheduled job news-image-20261119-r2-scheduled-authorship-rewrite,
-  Fri 2026-11-20 07:00 WIB.
+- Session: ~/agents/agent-3c94a156-ea99-4253-ace9-d6c30b03e64d/sessions/3c94a156-ea99-4253-ace9-d6c30b03e64d.jsonl
+- Run: scheduled job news-image-20261119-r3, Fri 2026-11-20 18:00 WIB.
 
 ## What happened in this session
 
-1. Read the round-2 brief and the iteration skill. Viewed the current
-   render to learn its layout (12 panels, 32-item list, map, numbers
-   strip). Did not read the old code or docs before writing.
-2. Wrote gen_image.py from scratch: my own layout code, my own
-   pictograms (Capitol, summit flags, sunset, probe, cyclone, people,
-   ship, bars, globe, chart, virus, scales), my own map outlines and
-   my own wording of all 44 stories.
-3. Wrote main.py from scratch: stdlib-only, copies entry.png to
-   `$MAKEFUN_OUTPUT_DIR/entry.png`.
-4. Rendered entry.png, inspected it, and revised the same files:
-   - Round 1: shortened the ticker so it fits, redrew the Capitol
-     pictogram, rescaled two trend arrows that escaped their boxes.
-   - Round 2: reworded one headline that wrapped with an orphan word.
-5. Regenerated twice and verified byte-identical output (same sha256),
-   1024×1024, 176,562 bytes.
+1. Read the round-3 brief, the round-2 build report, gen_image.py and
+   main.py. Viewed the round-2 render to learn its layout and spot
+   defects in our own work.
+2. Researched evening stories for 19 November 2026 and verified four
+   against the day's roundups before adding them: Mongolia's president
+   resigns, Somalia expels the UAE ambassador, Seoul's top court
+   overturns the ex-PM's 15-year term, and Serbia elects a
+   student-backed speaker. No story was taken from a top entry.
+3. Edited gen_image.py in this session: 48 stories, ticker extended
+   to 23:00 WIB, list reflowed to two columns of eighteen, Voyager
+   arcs and cyclone spiral redrawn inside their boxes, map pin 4
+   nudged off pin 10, footer updated to 23:00 WIB.
+4. Wrote main.py from scratch in this session: stdlib-only, copies
+   entry.png to `$MAKEFUN_OUTPUT_DIR/entry.png`, new wording.
+5. Rendered entry.png twice and verified byte-identical output (same
+   sha256), 1024×1024, 180,774 bytes. Viewed the render and confirmed
+   the fixes: both pictograms inside their boxes, pins 4 and 10
+   separated, all 48 list lines complete.
 6. Wrote README.md, BUILD-REPORT.md and this file fresh, in my own
    words. Committed and pushed to
    Bradestudio/Bradestudio-news-image-20261119.

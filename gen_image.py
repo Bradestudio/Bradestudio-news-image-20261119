@@ -7,7 +7,7 @@ grader needs no fonts and no network. Run twice: the bytes are identical.
 Layout, my own design: navy masthead with the date, a gold UTC timeline,
 two lead stories with hand-drawn art, two rows of five briefs, a
 BY THE NUMBERS strip, a world map with numbered pins, and a numbered
-list of the other 32 stories of the day. 44 stories, 6 continents.
+list of the other 36 stories of the day. 48 stories, 6 continents.
 """
 
 import hashlib
@@ -173,15 +173,15 @@ def art_probe(d, b, tint):
     d.rectangle((cx + 6, cy - 12, cx + 34, cy - 2), fill=(70, 110, 200), outline=(255, 255, 255))
     d.rectangle((cx + 6, cy + 2, cx + 34, cy + 12), fill=(70, 110, 200), outline=(255, 255, 255))
     d.polygon([(cx - 22, cy - 7), (cx - 38, cy - 16), (cx - 38, cy + 2)], fill=(200, 200, 210), outline=(255, 255, 255))
-    for r in (30, 40):
+    for r in (18, 24):
         d.arc((cx - r, cy - r, cx + r, cy + r), 200, 340, fill=GOLD_SOFT, width=2)
 
 
 def art_cyclone(d, b, tint):
     x0, y0, x1, y1 = b
     d.rectangle(b, fill=tint)
-    cx, cy = (x0 + x1) // 2, (y0 + y1) // 2 - 2
-    for r, a0, a1 in ((8, 0, 300), (15, 40, 340), (22, 80, 20), (29, 120, 60), (36, 160, 100)):
+    cx, cy = (x0 + x1) // 2, (y0 + y1) // 2
+    for r, a0, a1 in ((6, 0, 300), (11, 40, 340), (16, 80, 20), (21, 120, 60), (25, 160, 100)):
         d.arc((cx - r, cy - r, cx + r, cy + r), a0, a1, fill=(30, 90, 160), width=3)
     d.ellipse((cx - 4, cy - 4, cx + 4, cy + 4), fill=RED)
     for i in range(4):
@@ -349,7 +349,8 @@ BRIEFS = [
 
 TICKER = ("00:00 APEC opens  •  06:00 Jeffries 251–11  •  "
           "10:00 ICJ rules  •  14:00 Anthropic $83  •  "
-          "18:00 Van Gogh $190.4m  •  21:30 Markets close")
+          "18:00 Van Gogh $190.4m  •  21:30 Markets close  •  "
+          "23:00 Khurelsukh quits")
 
 NUMBERS = [
     ("251–11", "Jeffries Speaker vote"),
@@ -359,7 +360,11 @@ NUMBERS = [
     ("16.1bn mi", "Voyager 1 from Earth"),
 ]
 
-# The other 32 stories: short factual lines, two columns of sixteen.
+# The other 36 stories: short factual lines, two columns of eighteen.
+# Stories 45–48 are the evening additions for round 3, each first
+# reported on 19 November 2026: Mongolia's president resigns, Somalia
+# expels the UAE envoy, Seoul's top court voids the ex-PM's jail term,
+# and Serbia picks a student-backed speaker.
 MORE = [
     (13, "India", "Modi meets William and Kate"),
     (14, "India", "Odisha evacuates the Akvan coast"),
@@ -393,6 +398,10 @@ MORE = [
     (42, "Africa", "Ethiopia–Eritrea mass troops"),
     (43, "Pacific", "Fiji declares drought disaster"),
     (44, "Energy", "IEA: Hormuz top energy threat"),
+    (45, "Asia", "Mongolia president quits in rail scandal"),
+    (46, "Africa", "Somalia expels UAE ambassador"),
+    (47, "Asia", "Seoul court overturns ex-PM Han's 15-year term"),
+    (48, "Europe", "Serbia elects student-backed speaker"),
 ]
 
 # Rough continent outlines in (lon, lat), drawn from memory of the map.
@@ -434,9 +443,10 @@ CONTINENTS = [
     [(120, 22), (121, 25), (120, 25)],
 ]
 
-# Numbered pins for the twelve lead stories: (lon, lat).
+# Numbered pins for the twelve lead stories: (lon, lat). Pin 4 is nudged
+# east of the California coast so it no longer sits on top of pin 10.
 PINS = {
-    1: (-77, 39), 2: (114, 22.5), 3: (-80, 26), 4: (-118, 34),
+    1: (-77, 39), 2: (114, 22.5), 3: (-80, 26), 4: (-104, 30),
     5: (80, 14), 6: (39.8, 21.4), 7: (48, 29.5), 8: (-150, 64),
     9: (-75.7, 45.4), 10: (-122, 37.8), 11: (25, -2), 12: (4.3, 52),
 }
@@ -500,7 +510,7 @@ def draw_page():
     # ---- masthead
     d.rectangle((8, 8, 1016, 112), fill=NAVY)
     d.text((24, 16), "THE DAY IN WORLD NEWS", font=fnt("sansb", 14), fill=GOLD_SOFT)
-    right = "44 STORIES · 6 CONTINENTS · FULL DAY"
+    right = "48 STORIES · 6 CONTINENTS · FULL DAY"
     d.text((1016 - 24 - d.textlength(right, font=fnt("sansb", 14)), 16),
            right, font=fnt("sansb", 14), fill=GOLD_SOFT)
     d.text((24, 40), "Thursday 19 November 2026", font=fnt("serifb", 54), fill=(255, 255, 255))
@@ -552,13 +562,13 @@ def draw_page():
            font=fnt("sans", 9), fill=GREY)
 
     d.rectangle((474, 730, 1016, 992), fill=(255, 255, 255), outline=BORDER, width=2)
-    d.text((484, 738), "ALSO ON THURSDAY 19 NOVEMBER — 32 MORE STORIES",
+    d.text((484, 738), "ALSO ON THURSDAY 19 NOVEMBER — 36 MORE STORIES",
            font=fnt("sansb", 12), fill=INK)
     cols = [(484, 256), (748, 260)]
     for ci, (cx0, cw) in enumerate(cols):
-        for ri in range(16):
-            n, cat, line = MORE[ci * 16 + ri]
-            yy = 760 + ri * 14
+        for ri in range(18):
+            n, cat, line = MORE[ci * 18 + ri]
+            yy = 760 + ri * 13
             d.text((cx0, yy), str(n), font=fnt("sansb", 10), fill=RED)
             text = "%s: %s" % (cat, line)
             size = 10
@@ -569,8 +579,8 @@ def draw_page():
 
     # ---- footer
     d.text((8, 996),
-           "Full-day update to 19:30 WIB — evening stories: the ICJ ruling, the Anthropic IPO, "
-           "the Van Gogh record and unrest in Bangladesh.",
+           "Full-day update to 23:00 WIB — evening stories: the ICJ ruling, the Anthropic IPO, "
+           "the Van Gogh record, unrest in Bangladesh, and a president quitting in Mongolia.",
            font=fnt("sans", 10), fill=GREY)
     d.text((8, 1009),
            "Sources: Reuters, AP, AFP, BBC, Al Jazeera, NASA, IMD, Pew Research, Sotheby's, "

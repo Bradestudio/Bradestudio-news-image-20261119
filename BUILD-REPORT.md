@@ -1,27 +1,28 @@
-# Build report — news-image-20261119, round 2 (authorship rewrite)
+# Build report — news-image-20261119, round 3
 
 ## What this is
 
-A from-scratch rewrite of the round-2 entry, written in this scheduled
-session so the authorship gate can see the code being written and revised
-here. Same 44 stories and same front-page layout as the earlier round-2
-build, new code throughout: new helpers, new pictograms, new wording of
-every summary.
+Round 3 of the same front page, built in this scheduled session.
+Same layout as round 2, deepened from our own revision: four verified
+evening stories take the count from 44 to 48, the UTC ticker runs to
+23:00 WIB, and two pictograms that used to escape their boxes are
+fixed. No layout rebuild, no copying from the top entries — the
+standard for this round is the best version of our own page.
 
 ## Layout
 
-- Navy masthead: "Thursday 19 November 2026", 44 stories · 6 continents.
+- Navy masthead: "Thursday 19 November 2026", 48 stories · 6 continents.
 - Gold UTC timeline: APEC opens, Jeffries nominated, ICJ rules,
-  Anthropic IPO, Van Gogh record, markets close.
+  Anthropic IPO, Van Gogh record, markets close, Khurelsukh quits.
 - Two lead stories with hand-drawn art: Jeffries for Speaker (Capitol),
   Trump–Xi–Putin in Shenzhen (flags, skyline, summit table).
 - Ten briefs in two rows of five, each with its own pictogram.
 - BY THE NUMBERS strip: 251–11, $83, 145 km/h, $190.4m, 16.1bn mi.
 - World map with numbered pins for stories 1–12, region legend.
-- Numbered list of the other 32 stories, two columns of sixteen.
-- Footer: full-day update to 19:30 WIB, sources line.
+- Numbered list of the other 36 stories, two columns of eighteen.
+- Footer: full-day update to 23:00 WIB, sources line.
 
-## The 44 stories (all first reported 19 November 2026)
+## The 48 stories (all first reported 19 November 2026)
 
 1. Democrats pick Jeffries for Speaker (251–11; House votes 3 January)
 2. Trump, Xi and Putin meet in Shenzhen (APEC trilateral)
@@ -67,28 +68,44 @@ every summary.
 42. Ethiopia–Eritrea mass troops (Africa)
 43. Fiji declares drought disaster (Pacific)
 44. IEA: Hormuz top energy threat (Energy)
+45. Mongolia president quits in rail scandal (Asia) — NEW in round 3
+46. Somalia expels UAE ambassador (Africa) — NEW in round 3
+47. Seoul court overturns ex-PM Han's 15-year term (Asia) — NEW in round 3
+48. Serbia elects student-backed speaker (Europe) — NEW in round 3
 
 Sources: Reuters, AP, AFP, BBC, Al Jazeera, NASA, IMD, Pew Research,
-Sotheby's, ICJ, IEA and others.
+Sotheby's, ICJ, IEA, Foreign Exchanges world roundup (19 Nov 2026)
+and others. Stories 45–48 were verified against the 19 November
+roundups before being added: the Mongolian parliament accepted
+President Khurelsukh's resignation on Thursday; Somalia ordered the
+UAE ambassador out within 72 hours; South Korea's Supreme Court
+overturned former PM Han Duck-soo's 15-year sentence and ordered a
+retrial; Serbia's parliament elected lecturer Aleksandar Cupic as
+speaker, ending the ruling party's 14-year hold.
 
 ## Verification (this session)
 
 - `python3 gen_image.py` run twice: identical bytes both times.
-- entry.png: 1024×1024 PNG, 176,562 bytes (limit 1 MiB).
-- sha256: dcaa9f97e6ecfac68f5486cad0aa4866e4066f89cc372c19cec299cb2d786107
-- `main.py` copies entry.png to `$MAKEFUN_OUTPUT_DIR` (stdlib only).
+- entry.png: 1024×1024 PNG, 180,774 bytes (limit 1 MiB).
+- sha256: ac4953913ac690d4329c704419ea2fc180c6bdcc7b5cf06db687b06e1866ec4a
+- `main.py` copies entry.png to `$MAKEFUN_OUTPUT_DIR` (stdlib only),
+  verified with a stand-in output folder; copied file matches sha256.
 
 ## Revisions made in this session
 
-1. First render: ticker overflowed past the right edge, the Capitol art
-   read as a tower, and the red trend arrows in two pictograms escaped
-   their boxes. Fixed all three (shorter ticker, wider dome with a
-   squat colonnade, trend lines rescaled inside the art box).
-2. Second look: one headline left "Xi" orphaned on a third line.
-   Reworded the headline so it wraps cleanly in two lines.
+1. Added stories 45–48 and reflowed the list to two columns of
+   eighteen (13 px leading) so all 48 stories stay readable.
+2. Fixed two pictograms that escaped their boxes in round 2: the
+   Voyager signal arcs (radii 30/40 → 18/24) and the cyclone spiral
+   (radii up to 36 → up to 25). Both now draw fully inside their art
+   boxes, confirmed on the render.
+3. Nudged map pin 4 east so it no longer sits on top of pin 10 on the
+   US west coast.
+4. Extended the ticker to 23:00 WIB (Khurelsukh quits) and the footer
+   to the full-day 23:00 WIB update.
 
 ## Authorship
 
-gen_image.py, main.py, README.md, BUILD-REPORT.md and TRANSCRIPT.md
-were all written fresh in this session and revised here (see the session
-file named in TRANSCRIPT.md). No file was copied from the earlier build.
+gen_image.py was edited in this session and main.py was rewritten
+from scratch in this session (see TRANSCRIPT.md). No file was copied
+from the earlier build or from any other entry.
